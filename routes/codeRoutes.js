@@ -1,10 +1,9 @@
 import express from "express"
 const router = express.Router()
 
-import {GetCode, SendCode} from "../controllers/codeController.js"
+import {GetCode} from "../controllers/codeController.js"
 
-router.route("/sendCode").post(SendCode)
 
-router.route("/getCode").post(GetCode)
+router.route("/answer").get(GetCode)
 
 export default router

@@ -2,6 +2,7 @@ import React, { useState, useReducer, useContext } from 'react'
 import { CLEAR_ALERT, DISPLAY_ALERT, SETUP_USER_BEGIN,SETUP_USER_SUCCESS,SETUP_USER_ERROR,TOGGLE_SIDEBAR,LOGOUT_USER,UPDATE_USER_BEGIN,UPDATE_USER_SUCCESS,UPDATE_USER_ERROR } from './action'
 import reducer from './reducer'
 import axios from "axios"
+import questions from '../utils/questions'
 
 const token = localStorage.getItem('token')
 const user = localStorage.getItem('user')
@@ -97,6 +98,15 @@ const AppProvider = ({ children }) => {
     }
     clearAlert()
   }
+  async function getAnswer(question) {
+    return fetch("http://localhost:8000/answer/?question=" + question).then((response) => {
+      if (response.ok){
+        return response.json();
+      }
+      throw response.json();
+    });
+  }
+
   return (
     <AppContext.Provider
       value={{
@@ -106,7 +116,8 @@ const AppProvider = ({ children }) => {
         setUpUser,
         toggleSidebar,
         logOut,
-        updateUser
+        updateUser,
+        getAnswer,
       }}
     >
       {children}

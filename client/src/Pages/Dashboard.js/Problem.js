@@ -2,18 +2,19 @@ import React from 'react'
 import problems from "../../utils/questions"
 import Card from 'react-bootstrap/Card';
 import Wrapper from '../../assets/wrappers/Problem';
-import { NavLink } from 'react-router-dom';
+import { NavLink} from 'react-router-dom';
 
 
 
 
 const Problem = () => {
+
   return (
     <Wrapper>
         <h3>Problem</h3>
         {
             problems.map((item)=>{
-                const {title, problem, id} = item
+                const {title, problem, path} = item
                 return(
                 <div className='card-container'>
                     <Card className = "card">
@@ -24,7 +25,7 @@ const Problem = () => {
                                 {problem}
                             </Card.Text>
                         </Card.Body>
-                        <NavLink to = "/ide"></NavLink>
+                        <NavLink to = {path} className="btn btn-hero">Try</NavLink>
 
                     </Card>
 

@@ -14,10 +14,16 @@ const Wrapper = styled.article`
     padding: 20px;
 }
 .card{
-
+    width: 50em;
     border: 2px solid var(--primary-400);
 }
+.btn {
+    width: 100px;
+    color : var(--primary-400);
+    margin : 8px ;
+    float: right;
 
+}
 `
 
 export default Wrapper
