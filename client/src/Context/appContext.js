@@ -1,5 +1,5 @@
 import React, { useState, useReducer, useContext } from 'react'
-import { CLEAR_ALERT, DISPLAY_ALERT, SETUP_USER_BEGIN,SETUP_USER_SUCCESS,SETUP_USER_ERROR,TOGGLE_SIDEBAR,LOGOUT_USER,UPDATE_USER_BEGIN,UPDATE_USER_SUCCESS,UPDATE_USER_ERROR } from './action'
+import { CLEAR_ALERT, DISPLAY_ALERT, SETUP_USER_BEGIN,SETUP_USER_SUCCESS,SETUP_USER_ERROR,TOGGLE_SIDEBAR,LOGOUT_USER,UPDATE_USER_BEGIN,UPDATE_USER_SUCCESS,UPDATE_USER_ERROR, GET_ANSWER_BEGIN, GET_ANSWER_SUCCESS, GET_ANSWER_ERROR } from './action'
 import reducer from './reducer'
 import axios from "axios"
 import questions from '../utils/questions'
@@ -19,6 +19,8 @@ const initialState = {
   showSidebar : false,
 
 }
+const baseUrl = process.env.REACT_APP_API_BASE_URL;
+
 const AppContext = React.createContext()
 const AppProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer,initialState)
@@ -98,13 +100,26 @@ const AppProvider = ({ children }) => {
     }
     clearAlert()
   }
-  async function getAnswer(question) {
-    return fetch("http://localhost:8000/answer/?question=" + question).then((response) => {
-      if (response.ok){
-        return response.json();
-      }
-      throw response.json();
-    });
+
+  const getAnswer = async(question) =>{
+    dispatch({type : GET_ANSWER_BEGIN})
+    try {
+      dispatch({
+        type:GET_ANSWER_SUCCESS,
+      })
+      return axios.get("/api/version1/code/answer/?question=" + question).then((response) => {
+        // console.log(response)
+        if (response.status == 200){
+          return response.data
+        }
+        throw response.data
+      });
+    } catch (error) {
+      dispatch({
+        type:GET_ANSWER_ERROR,
+        payload:{msg: error.response.data.msg}
+      })
+    }
   }
 
   return (

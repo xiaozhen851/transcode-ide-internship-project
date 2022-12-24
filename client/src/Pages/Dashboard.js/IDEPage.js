@@ -7,6 +7,7 @@ import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { useAppContext } from '../../Context/appContext';
+import { Alert } from '../../Component';
 
 
 
@@ -14,23 +15,27 @@ const IDEPage = () => {
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
   const [fetchedAnswer, setFetchedAnswer] = useState("");
-  const {getAnswer} = useAppContext()
+  const {getAnswer,showAlert, displayAlert,clearAlert} = useAppContext()
 
   const handleClickEvent = (event) => {
     event.preventDefault();
-    setLoading(true);
     const inputQuestion = event.target.inputQuestion.value;
     // console.log(getAnswer(inputQuestion))
-
-    getAnswer(inputQuestion)
-      .then((response) => {
+    if(!inputQuestion){
+      displayAlert()
+      return
+    }
+    setLoading(true);
+    getAnswer(inputQuestion).then((response) => {
+        // console.log(response)
         setError(false);
         setFetchedAnswer(response.answer);
-      })
-      .catch((error) => {
-        console.log(error);
-      })
-      .finally(() => setLoading(false));
+    })
+    .catch((error) => {
+      console.log(error);
+    })
+    .finally(() => setLoading(false));
+    clearAlert()
   };
   return (
     <Wrapper>
@@ -70,6 +75,7 @@ const IDEPage = () => {
           {loading && <div>Generating..............</div>}
           <br />
           <Button variant="primary" type="submit">Submit</Button>
+          {showAlert && <Alert/>}
 
       </Form>
 

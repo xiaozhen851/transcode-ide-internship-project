@@ -1,7 +1,10 @@
 import { StatusCodes } from "http-status-codes";
 import BadRequestAPIError from "../errors/bad-request-error.js"
 import { Configuration, OpenAIApi } from "openai";
+import dotenv from 'dotenv'
+dotenv.config()
 
+//initial of openAI
 const configuration = new Configuration({
     apiKey: process.env.OPENAI_API_KEY,
 });
@@ -19,21 +22,22 @@ async function getAnswer(question) {
     });
 }
 
-
+const test = (req,res) =>{
+    res.send("test success!")
+}
 
 const GetCode = (req,res) =>{
-    let question = req.body.question;
+    let question = req.query.question;
     try {
         getAnswer(question).then((response)=>{
-            console.log(response.data.choices)
             let answer = {answer:response.data.choices[0].text}
             res.status(StatusCodes.OK).send(answer);
         })
     } catch (error) {
-        throw BadRequestAPIError("request fail")
+        throw BadRequestAPIError("Request fail")
     }
 }
 
 
 
-export {GetCode}
+export {GetCode,test}
