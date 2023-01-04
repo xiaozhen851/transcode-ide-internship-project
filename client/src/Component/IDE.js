@@ -13,14 +13,11 @@ const IDE = (props) => {
         <div>
             <Editor
               height='400px'
-              width= "670px"
               theme='vs-bright'
               defaultLanguage='markdown'
               onMount={handleEditorDidMount}
               value = {props.msg}
-              >
-
-            </Editor>
+            />
         </div>
   )
 }
