@@ -12,3 +12,17 @@
   width: 400px;
   flex: none;
 }
+
+.code-run-area {
+  text-align: left;
+  margin: 18px -4px;
+  padding: 8px;
+  border: 1px solid var(--grey-400);
+  border-radius: 2px;
+  height: 200px;
+  overflow: auto;
+}
+
+.code-run-output {
+  margin-top: 8px;
+}
