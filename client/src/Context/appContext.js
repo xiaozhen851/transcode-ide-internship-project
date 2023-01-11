@@ -1,8 +1,24 @@
 import React, { useState, useReducer, useContext } from 'react'
-import { CLEAR_ALERT, DISPLAY_ALERT, SETUP_USER_BEGIN,SETUP_USER_SUCCESS,SETUP_USER_ERROR,TOGGLE_SIDEBAR,LOGOUT_USER,UPDATE_USER_BEGIN,UPDATE_USER_SUCCESS,UPDATE_USER_ERROR, GET_ANSWER_BEGIN, GET_ANSWER_SUCCESS, GET_ANSWER_ERROR } from './action'
+import {
+  CLEAR_ALERT,
+  DISPLAY_ALERT,
+  SETUP_USER_BEGIN,
+  SETUP_USER_SUCCESS,
+  SETUP_USER_ERROR,
+  TOGGLE_SIDEBAR,
+  LOGOUT_USER,
+  UPDATE_USER_BEGIN,
+  UPDATE_USER_SUCCESS,
+  UPDATE_USER_ERROR,
+  GET_ANSWER_BEGIN,
+  GET_ANSWER_SUCCESS,
+  GET_ANSWER_ERROR,
+  RUN_CODE_BEGIN,
+  RUN_CODE_SUCCESS,
+  RUN_CODE_ERROR
+} from './action'
 import reducer from './reducer'
 import axios from "axios"
-import questions from '../utils/questions'
 
 const token = localStorage.getItem('token')
 const user = localStorage.getItem('user')
@@ -24,7 +40,7 @@ const baseUrl = process.env.REACT_APP_API_BASE_URL;
 const AppContext = React.createContext()
 const AppProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer,initialState)
-  //axios global setup 
+  //axios global setup
   axios.defaults.headers['Authorization'] = `Bearer ${state.token}`
   const displayAlert = () => {
     dispatch({
@@ -56,12 +72,12 @@ const AppProvider = ({ children }) => {
     try {
       const { data } = await axios.post(`/api/version1/auth/${endpoint}`, currentUser)
       const { user, token, university } = data
-  
+
       dispatch({
         type: SETUP_USER_SUCCESS,
         payload: { user, token, university, alertText},
       })
-  
+
       addUserToLocalStorage({ user, token, university })
     } catch (error) {
       dispatch({
@@ -122,6 +138,32 @@ const AppProvider = ({ children }) => {
     }
   }
 
+  const runCode = async (runParameters) => {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json; charset-utf-8',
+      },
+    };
+    // dispatch({ type: RUN_CODE_BEGIN });
+    try {
+      // dispatch({ type: RUN_CODE_SUCCESS });
+      const response = await axios.post(
+          '/api/version1/code/runs',
+          runParameters,
+          config
+      );
+      if (response.status == 200) {
+        return response.data
+      }
+    } catch (error) {
+      console.log(error);
+      dispatch({
+        type: RUN_CODE_ERROR,
+        payload: { msg: error.response.data.msg }
+      })
+    }
+  };
+
   return (
     <AppContext.Provider
       value={{
@@ -133,6 +175,7 @@ const AppProvider = ({ children }) => {
         logOut,
         updateUser,
         getAnswer,
+        runCode,
       }}
     >
       {children}

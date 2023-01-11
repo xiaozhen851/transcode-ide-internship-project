@@ -1,5 +1,22 @@
 import React from 'react'
-import { CLEAR_ALERT, DISPLAY_ALERT, SETUP_USER_BEGIN,SETUP_USER_SUCCESS,SETUP_USER_ERROR,TOGGLE_SIDEBAR,LOGOUT_USER,UPDATE_USER_BEGIN,UPDATE_USER_SUCCESS,UPDATE_USER_ERROR, GET_ANSWER_BEGIN, GET_ANSWER_SUCCESS, GET_ANSWER_ERROR } from './action'
+import {
+    CLEAR_ALERT,
+    DISPLAY_ALERT,
+    SETUP_USER_BEGIN,
+    SETUP_USER_SUCCESS,
+    SETUP_USER_ERROR,
+    TOGGLE_SIDEBAR,
+    LOGOUT_USER,
+    UPDATE_USER_BEGIN,
+    UPDATE_USER_SUCCESS,
+    UPDATE_USER_ERROR,
+    GET_ANSWER_BEGIN,
+    GET_ANSWER_SUCCESS,
+    GET_ANSWER_ERROR,
+    RUN_CODE_BEGIN,
+    RUN_CODE_SUCCESS,
+    RUN_CODE_ERROR
+} from './action'
 import { initialState } from './appContext'
 
 const reducer = (state, action) => {
@@ -110,6 +127,27 @@ const reducer = (state, action) => {
             alertType:"danger",
             alertText:action.payload.msg,
             showAlert:true
+        }
+    }
+    if (action.type === RUN_CODE_BEGIN) {
+        return {
+            ...state
+        }
+    }
+    if (action.type === RUN_CODE_SUCCESS) {
+        return {
+            ...state,
+            alertType:"success",
+            alertText: "Run successfully!",
+            showAlert: true
+        }
+    }
+    if (action.type === RUN_CODE_ERROR) {
+        return{
+            ...state,
+            alertType: "danger",
+            alertText: action.payload.msg,
+            showAlert: true
         }
     }
 

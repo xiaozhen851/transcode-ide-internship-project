@@ -7,7 +7,7 @@ import { NavLink} from 'react-router-dom';
 
 
 
-const Problem = () => {
+const ProblemList = () => {
 
   return (
     <Wrapper>
@@ -35,9 +35,9 @@ const Problem = () => {
                 )
             })
         }
-        
+
     </Wrapper>
   )
 }
 
-export default Problem
+export default ProblemList
