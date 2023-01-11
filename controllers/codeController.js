@@ -1,7 +1,8 @@
 import { StatusCodes } from "http-status-codes";
-import BadRequestAPIError from "../errors/bad-request-error.js"
+import BadRequestAPIError from "../errors/bad-request-error.js";
+import request from "request";
 import { Configuration, OpenAIApi } from "openai";
-import dotenv from 'dotenv'
+import dotenv from 'dotenv';
 dotenv.config()
 
 //initial of openAI
@@ -38,6 +39,11 @@ const GetCode = (req,res) =>{
     }
 }
 
+const runCode = async (req, res) => {
+    const temp = req._parsedUrl.search ? req._parsedUrl.search : req.url;
+    const url = 'http://170.64.176.250/jobe/index.php/restapi' + temp;
+    // console.log(url)
+    req.pipe(request(url)).pipe(res);
+};
 
-
-export {GetCode,test}
+export { runCode, GetCode, test }

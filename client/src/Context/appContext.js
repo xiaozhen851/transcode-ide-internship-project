@@ -148,11 +148,13 @@ const AppProvider = ({ children }) => {
     try {
       // dispatch({ type: RUN_CODE_SUCCESS });
       const response = await axios.post(
-          'https://code-runner-oxrju5up5q-ts.a.run.app/jobe/index.php/restapi/runs',
+          '/api/version1/code/runs',
           runParameters,
           config
       );
-      return response.data;
+      if (response.status == 200) {
+        return response.data
+      }
     } catch (error) {
       console.log(error);
       dispatch({
