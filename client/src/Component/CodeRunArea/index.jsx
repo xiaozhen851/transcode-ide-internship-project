@@ -3,7 +3,7 @@ import { useState } from 'react';
 // import InputArea from './InputArea';
 // import OutputArea from './OutputArea';
 import Button from "react-bootstrap/Button";
-import { Alert } from "../index";
+// import { Alert } from "../index";
 import { useAppContext } from "../../Context/appContext";
 
 const CodeRunArea = (props) => {
@@ -34,7 +34,7 @@ const CodeRunArea = (props) => {
         <div className={className}>
             <Button variant="primary" onClick={run}>Run</Button>
             <div className="code-run-output">{output}</div>
-            {showAlert && <Alert/>}
+            {/*{showAlert && <Alert/>}*/}
             {/*<OutputArea loading={loading} text={output} />*/}
         </div>
     );

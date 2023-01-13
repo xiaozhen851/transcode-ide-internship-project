@@ -11,6 +11,21 @@
 .ide-page .ai-help-form {
   width: 400px;
   flex: none;
+  height: calc(100vh - 160px);
+  min-height: 700px;
+  position: relative;
+  overflow: auto;
+}
+
+.ide-page .ai-help-form .input-question {
+  /*position: absolute;*/
+  /*top: 0;*/
+}
+
+.ide-page .ai-help-form .submit-button {
+  position: absolute;
+  top: 110px;
+  right: 8px;
 }
 
 .code-run-area {

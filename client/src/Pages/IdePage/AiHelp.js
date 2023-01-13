@@ -5,6 +5,7 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { useAppContext } from '../../Context/appContext';
 import { Alert } from '../../Component';
+import AiAnswer from './components/AiAnswer';
 
 
 const AiHelp = () => {
@@ -35,23 +36,23 @@ const AiHelp = () => {
 
   return (
       <Form onSubmit={handleClickEvent} className='ai-help-form'>
-
-        {error && <p> {error} </p>}
-        <Form.Label>Ask For Help</Form.Label>
-        <FloatingLabel controlid="inputQuestion" label='Please describe your question here' htmlFor="inputQuestion">
-          <Form.Control
-              as="textarea"
-              placeholder="Leave a comment here"
-              name="inputQuestion"
-              controlid="inputQuestion"
-              style={{ width:'100%', minHeight: '100px' }}
-          />
-        </FloatingLabel>
-        <br />
-        <Button variant="primary" type="submit">Submit</Button>
+        <div className="input-question">
+          <Form.Label>Ask For Help</Form.Label>
+          <FloatingLabel controlid="inputQuestion" label="Please describe your question here" htmlFor="inputQuestion">
+            <Form.Control
+                as="textarea"
+                placeholder="Please describe your question here"
+                name="inputQuestion"
+                controlid="inputQuestion"
+                style={{ width:'100%', height: '120px', resize: 'none' }}
+            />
+          </FloatingLabel>
+        </div>
+        <Button variant="primary" type="submit" className="submit-button" size="sm">Submit</Button>
         {loading && <div>Generating..............</div>}
-        {showAlert && <Alert/>}
-        {!loading && <div>{fetchedAnswer}</div>}
+        {error && <p> {error} </p>}
+        {/*{showAlert && <Alert/>}*/}
+        {!loading && fetchedAnswer && <AiAnswer answer={fetchedAnswer}></AiAnswer>}
 
       </Form>
   )

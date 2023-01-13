@@ -157,10 +157,10 @@ const AppProvider = ({ children }) => {
       }
     } catch (error) {
       console.log(error);
-      dispatch({
-        type: RUN_CODE_ERROR,
-        payload: { msg: error.response.data.msg }
-      })
+      // dispatch({
+      //   type: RUN_CODE_ERROR,
+      //   payload: { msg: error.response.data.msg }
+      // })
     }
   };
 
