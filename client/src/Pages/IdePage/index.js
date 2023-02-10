@@ -6,10 +6,12 @@ import AiHelp from './AiHelp';
 
 
 const IdePage = () => {
+    const queryList = window.location.search.split('=');
+
 
   return (
     <Wrapper className='ide-page'>
-      <ProblemDescription />
+      <ProblemDescription questionId={queryList.length > 1 ? queryList[1] : ''}/>
 
       <div className='is-flex'>
       <div className='container'>

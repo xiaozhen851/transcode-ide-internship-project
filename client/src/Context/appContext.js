@@ -95,6 +95,7 @@ const AppProvider = ({ children }) => {
     dispatch({type:LOGOUT_USER})
     removeUserFromLocalStorage()
   }
+
   const updateUser = async (currentUser) => {
     dispatch({type:UPDATE_USER_BEGIN})
     try {
@@ -164,6 +165,24 @@ const AppProvider = ({ children }) => {
     }
   };
 
+  const getQuestionList = async () => {
+    try {
+      const { data } = await axios.get('/api/version1/problem/list');
+      return data;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  const getQuestionDesc = async (id) => {
+    try {
+      const { data } = await axios.post('/api/version1/problem/desc', { id });
+      return data;
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   return (
     <AppContext.Provider
       value={{
@@ -176,6 +195,8 @@ const AppProvider = ({ children }) => {
         updateUser,
         getAnswer,
         runCode,
+        getQuestionList,
+        getQuestionDesc,
       }}
     >
       {children}
