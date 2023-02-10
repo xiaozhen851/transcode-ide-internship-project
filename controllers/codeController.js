@@ -41,7 +41,7 @@ const GetCode = (req,res) =>{
 
 const runCode = async (req, res) => {
     const temp = req._parsedUrl.search ? req._parsedUrl.search : req.url;
-    const url = 'http://170.64.176.250/jobe/index.php/restapi' + temp;
+    const url = `http://${process.env.JOBE_SERVER_IP_ADDRESS}/jobe/index.php/restapi${temp}`;
     // console.log(url)
     req.pipe(request(url)).pipe(res);
 };

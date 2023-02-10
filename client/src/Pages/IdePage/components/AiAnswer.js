@@ -37,12 +37,14 @@ export default function AiAnswer(props) {
     return (
         <div className="ai-answer">
             <Form.Control
+                plaintext
                 readOnly
                 as="textarea"
                 name="aiAnswer"
                 controlid="aiAnswer"
                 value={result.join('\n')}
                 rows={result.length + 1}
+                style={{ resize: 'none' }}
             />
             {/*<div className="answer-lines">*/}
             {/*    {result.map((line, index) => {*/}
@@ -57,7 +59,7 @@ export default function AiAnswer(props) {
             {/*    })}*/}
             {/*</div>*/}
             <div className="answer-show-buttons">
-                <Button onClick={handleShowLine} variant="outline-primary" size="sm">Show Next</Button>
+                <Button onClick={handleShowLine} variant="outline-secondary" size="sm">Show Next</Button>
                 <Button onClick={handleShowAll} variant="outline-secondary" size="sm">Show All</Button>
             </div>
         </div>

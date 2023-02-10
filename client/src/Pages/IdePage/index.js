@@ -1,15 +1,17 @@
 import React from 'react'
 import Wrapper from '../../assets/wrappers/IDEPage';
 import IDE from '../../Component/IDE';
-import { useState } from "react";
-import AiHelp from "./AiHelp";
+import ProblemDescription from './components/ProblemDescription';
+import AiHelp from './AiHelp';
 
 
 const IdePage = () => {
 
   return (
-    <Wrapper className='is-flex ide-page'>
-      {/* <Outlet/> */}
+    <Wrapper className='ide-page'>
+      <ProblemDescription />
+
+      <div className='is-flex'>
       <div className='container'>
 
         <div className='header'>
@@ -30,7 +32,7 @@ const IdePage = () => {
       </div>
 
       <AiHelp/>
-
+      </div>
     </Wrapper>
   )
 }

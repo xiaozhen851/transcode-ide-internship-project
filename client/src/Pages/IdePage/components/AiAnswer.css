@@ -13,3 +13,25 @@ button + button {
 .ai-answer .answer-show-buttons {
     margin-top: 12px;
 }
+
+.problem-description {
+    display: flex;
+    margin-top: 5px;
+}
+
+.problem-description-content {
+    border: 1px solid var(--grey-100);
+    border-radius: 2px;
+    padding: 2px 8px;
+    margin-left: 12px;
+    flex: 1;
+    /*white-space: nowrap;*/
+    overflow: auto;
+    /*text-overflow: ellipsis;*/
+    /*max-width: calc(100% - 400px);*/
+}
+
+.problem-description-content .title {
+    font-weight: bold;
+    margin-right: 8px;
+}

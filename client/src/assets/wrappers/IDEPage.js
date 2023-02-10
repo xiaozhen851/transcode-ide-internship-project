@@ -35,12 +35,11 @@ const Wrapper = styled.article`
     padding: 4px;
 }
 
-.btn {
+.btn-primary {
     background: #57a958;
     color: white;
     padding: 8px;
-    border: 0;
-    
+    border: 0;   
 }
 
 .output {
