@@ -23,8 +23,8 @@ app.use(cors());
 
 app.use("/api/version1/auth", authRouter);
 app.use("/api/version1/problem", problemRouter);
-app.use("/api/version1/log", logRouter);
-app.use("/api/version1/code",  authenticatedUser, cors(), codeRouter);
+app.use("/api/version1/log", authenticatedUser, logRouter);
+app.use("/api/version1/code", authenticatedUser, cors(), codeRouter);
 
 //middleware
 

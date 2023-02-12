@@ -110,7 +110,7 @@ const AppProvider = ({ children }) => {
   }
 
   const updateUser = async (currentUser) => {
-    dispatch({type:UPDATE_USER_BEGIN})
+    dispatch({ type:UPDATE_USER_BEGIN })
     try {
       const { data } = await axios.patch('/api/version1/auth/updateUser', currentUser)
       const {user, token, university} = data
@@ -119,13 +119,15 @@ const AppProvider = ({ children }) => {
         payload:{user,token,university}
       })
       addUserToLocalStorage({ user, token, university })
-
     } catch (error) {
-      if(error.response.status !== 401){
+      if (error.response.status !== 401) {
         dispatch({
-        type:UPDATE_USER_ERROR,
-        payload:{msg: error.response.data.msg}
-      })
+          type:UPDATE_USER_ERROR,
+          payload:{msg: error.response.data.msg}
+        });
+      } else {
+        removeUserFromLocalStorage();
+        window.location = '/register';
       }
     }
     clearAlert()
@@ -149,6 +151,10 @@ const AppProvider = ({ children }) => {
         type:GET_ANSWER_ERROR,
         payload:{msg: error.response.data.msg}
       })
+      if (error.response.status == 401) {
+        removeUserFromLocalStorage();
+        window.location = '/register';
+      }
     }
   }
 
@@ -158,9 +164,7 @@ const AppProvider = ({ children }) => {
         'Content-Type': 'application/json; charset-utf-8',
       },
     };
-    // dispatch({ type: RUN_CODE_BEGIN });
     try {
-      // dispatch({ type: RUN_CODE_SUCCESS });
       const response = await axios.post(
           '/api/version1/code/runs',
           runParameters,
@@ -171,10 +175,10 @@ const AppProvider = ({ children }) => {
       }
     } catch (error) {
       console.log(error);
-      // dispatch({
-      //   type: RUN_CODE_ERROR,
-      //   payload: { msg: error.response.data.msg }
-      // })
+      if (error.response.status == 401) {
+        removeUserFromLocalStorage();
+        window.location = '/register';
+      }
     }
   };
 
@@ -201,7 +205,11 @@ const AppProvider = ({ children }) => {
       const { data } = await axios.post('/api/version1/log/create', params);
       return data;
     } catch (error) {
-      console.error(error)
+      console.error(error);
+      if (error.response.status == 401) {
+        removeUserFromLocalStorage();
+        window.location = '/register';
+      }
     }
   }
 
@@ -210,7 +218,11 @@ const AppProvider = ({ children }) => {
       const { data } = await axios.post('/api/version1/log/lastRecord', params);
       return data;
     } catch (error) {
-      console.error(error)
+      console.error(error);
+      if (error.response.status == 401) {
+        removeUserFromLocalStorage();
+        window.location = '/register';
+      }
     }
   }
 
