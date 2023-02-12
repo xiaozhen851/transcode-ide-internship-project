@@ -2,17 +2,14 @@ import React from 'react'
 import Editor from '@monaco-editor/react'
 import { useRef } from 'react'
 import CodeRunArea from "./CodeRunArea";
+import { initialState } from '../Context/appContext';
 
 const IDE = () => {
     const editorRef = useRef(null);
 
     const handleEditorDidMount = (editor, monaco) => {
         editorRef.current = editor;
-    }
-
-    const getEditorValue = () => {
-        console.log('get value', editorRef.current.getValue())
-        return editorRef.current.getValue();
+        initialState.getEditorValue = () => editor.getValue();
     }
 
     return (
@@ -23,7 +20,7 @@ const IDE = () => {
               defaultLanguage='python3'
               onMount={handleEditorDidMount}
             />
-            <CodeRunArea getSourceCode={getEditorValue} className="code-run-area" />
+            <CodeRunArea className="code-run-area" />
         </div>
     )
 }

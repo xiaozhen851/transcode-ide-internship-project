@@ -1,4 +1,4 @@
-import React, { useState, useReducer, useContext } from 'react'
+import React, { useReducer, useContext } from 'react';
 import {
   CLEAR_ALERT,
   DISPLAY_ALERT,
@@ -13,12 +13,12 @@ import {
   GET_ANSWER_BEGIN,
   GET_ANSWER_SUCCESS,
   GET_ANSWER_ERROR,
-  RUN_CODE_BEGIN,
-  RUN_CODE_SUCCESS,
-  RUN_CODE_ERROR
-} from './action'
-import reducer from './reducer'
-import axios from "axios"
+  // RUN_CODE_BEGIN,
+  // RUN_CODE_SUCCESS,
+  // RUN_CODE_ERROR
+} from './action';
+import reducer from './reducer';
+import axios from 'axios';
 
 const token = localStorage.getItem('token')
 const user = localStorage.getItem('user')
@@ -30,41 +30,53 @@ const initialState = {
   alertText: '',
   alertType: '',
   user: user ? JSON.parse(user) : null,
-  token:token,
+  token: token,
   university: university,
   showSidebar : false,
+  question: '',
+  getEditorValue: null,
+};
 
-}
 const baseUrl = process.env.REACT_APP_API_BASE_URL;
 
 const AppContext = React.createContext()
+
 const AppProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(reducer,initialState)
+  const [state, dispatch] = useReducer(reducer,initialState);
   //axios global setup
-  axios.defaults.headers['Authorization'] = `Bearer ${state.token}`
+  axios.defaults.headers['Authorization'] = `Bearer ${state.token}`;
+
   const displayAlert = () => {
     dispatch({
       type: DISPLAY_ALERT,
     })
     clearAlert()
-  }
+  };
+
   const clearAlert = () => {
     setTimeout(() => {
       dispatch({
         type: CLEAR_ALERT,
       })
     }, 3000)
-  }
+  };
+
   const addUserToLocalStorage = ({ user, token, university }) => {
-    localStorage.setItem('user', JSON.stringify(user))
-    localStorage.setItem('token', token)
-    localStorage.setItem('university', university)
+    initialState.user = user;
+    initialState.token = token;
+    initialState.university = university;
+    localStorage.setItem('user', JSON.stringify(user));
+    localStorage.setItem('token', token);
+    localStorage.setItem('university', university);
   }
 
   const removeUserFromLocalStorage = () => {
-      localStorage.removeItem('token')
-      localStorage.removeItem('user')
-      localStorage.removeItem('university')
+    initialState.user = null;
+    initialState.token = '';
+    initialState.university = '';
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    localStorage.removeItem('university');
   }
 
   const setUpUser = async ({currentUser, endpoint, alertText}) => {
@@ -87,6 +99,7 @@ const AppProvider = ({ children }) => {
     }
     clearAlert()
   }
+
   const toggleSidebar = ()=>{
     dispatch({type:TOGGLE_SIDEBAR})
   }
@@ -183,6 +196,15 @@ const AppProvider = ({ children }) => {
     }
   }
 
+  const log = async (params) => {
+    try {
+      const { data } = await axios.post('/api/version1/log/create', params);
+      return data;
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   return (
     <AppContext.Provider
       value={{
@@ -197,6 +219,7 @@ const AppProvider = ({ children }) => {
         runCode,
         getQuestionList,
         getQuestionDesc,
+        log,
       }}
     >
       {children}
@@ -208,4 +231,4 @@ const useAppContext = () => {
   return useContext(AppContext)
 }
 
-export { AppProvider, useAppContext,initialState }
+export { AppProvider, useAppContext, initialState }

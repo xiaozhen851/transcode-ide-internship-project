@@ -1,19 +1,18 @@
 import { useEffect, useState } from 'react';
 import { FaCaretDown, FaCaretUp } from 'react-icons/fa';
 import Button from 'react-bootstrap/Button';
-import { useAppContext } from '../../../Context/appContext';
+import { useAppContext, initialState } from '../../../Context/appContext';
 
-export default function ProblemDescription(props) {
+export default function ProblemDescription() {
     const { getQuestionDesc } = useAppContext();
     const [show, setShow] = useState(true);
     const [desc, setDesc] = useState('');
     const [title, setTitle] = useState('');
     const [problem, setProblem] = useState('');
-    const { questionId } = props;
 
     const getDesc = async () => {
-        if (!questionId) return;
-        const data = await getQuestionDesc(questionId);
+        if (!initialState.question) return;
+        const data = await getQuestionDesc(initialState.question);
         setProblem(data.question);
         setTitle(data.question.title);
         setDesc(data.question.problem);
@@ -22,18 +21,18 @@ export default function ProblemDescription(props) {
 
     useEffect(() => {
         getDesc().then();
-    }, [questionId]);
+    }, [initialState.question]);
 
     // show/hide the problem description
     const handleShow = () => {
-        if (!questionId) return;
+        setShow(!show);
+        if (!initialState.question) return;
         if (show) {
             // description = desc;
             setDesc(problem.problem.slice(0, 80) + '...');
         } else {
             setDesc(problem.problem);
         }
-        setShow(!show);
     }
 
     return (
