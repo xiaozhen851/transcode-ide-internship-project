@@ -205,6 +205,15 @@ const AppProvider = ({ children }) => {
     }
   }
 
+  const lastRecord = async (params) => {
+    try {
+      const { data } = await axios.post('/api/version1/log/lastRecord', params);
+      return data;
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   return (
     <AppContext.Provider
       value={{
@@ -220,6 +229,7 @@ const AppProvider = ({ children }) => {
         getQuestionList,
         getQuestionDesc,
         log,
+        lastRecord,
       }}
     >
       {children}
