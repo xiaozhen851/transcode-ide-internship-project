@@ -12,7 +12,6 @@ const CodeRunArea = (props) => {
     const { runCode, log } = useAppContext();
 
     const logCode = async (code, response) => {
-        console.log('initialState.user', initialState.user)
         const params = {
             createdBy: initialState.user._id,
             code,

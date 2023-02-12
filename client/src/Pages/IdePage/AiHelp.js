@@ -3,7 +3,7 @@ import { useState } from "react";
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import { useAppContext } from '../../Context/appContext';
+import { initialState, useAppContext } from '../../Context/appContext';
 import { Alert } from '../../Component';
 import AiAnswer from './components/AiAnswer';
 
@@ -12,7 +12,18 @@ const AiHelp = () => {
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
   const [fetchedAnswer, setFetchedAnswer] = useState("");
-  const { getAnswer, showAlert, displayAlert, clearAlert } = useAppContext()
+  const { getAnswer, log, displayAlert, clearAlert } = useAppContext();
+
+  const logHelp = async (content) => {
+    const params = {
+      createdBy: initialState.user._id,
+      code: initialState.getEditorValue(),
+      content,
+      interaction: 'ASK_QUESTION',
+      question: initialState.question,
+    };
+    log(params);
+  }
 
   const handleClickEvent = (event) => {
     event.preventDefault();
@@ -23,6 +34,7 @@ const AiHelp = () => {
       return;
     }
     setLoading(true);
+    logHelp(inputQuestion);
     const question = `"""${inputQuestion}"""`;
     getAnswer(question).then((response) => {
         // console.log(response)
